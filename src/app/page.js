@@ -114,25 +114,24 @@ export default function Home() {
 
   const tasksElements = notes.map(note => (
     <div
-      className={`group flex items-start gap-4 px-4 py-3 rounded-lg border border-neutral-200/10 bg-neutral-800`}
+      className={`relative group flex items-start gap-4 ${note._id === editingId ? "p-2" : "px-4 py-3"} rounded-lg border border-neutral-200/10 bg-neutral-800`}
       key={note._id}
     >
-      <div className={`flex-1 flex-col gap-1`}>
+      <div className={`flex-1 flex-col gap-2`}>
         {note._id === editingId
           ? (
           // Editing UI
           <>
             <input
-              className="block w-full mb-2 border border-neutral-200/20 rounded-lg px-3 py-1"
+              className="block w-full mb-1 border border-neutral-200/20 rounded-lg px-3 py-1"
               type="text"
               placeholder="Edit title:"
               value={editTitle}
               onChange={(e) => setEditTitle(e.currentTarget.value)}
-              />
+            />
 
-            <input
-              className="block w-full border border-neutral-200/20 rounded-lg px-3 py-1"
-              type="text"
+            <textarea
+              className="block w-full border border-neutral-200/20 rounded-lg px-3 py-1 min-h-[170px]"
               placeholder="Edit content:"
               value={editDesc}
               onChange={(e) => setEditDesc(e.currentTarget.value)}
@@ -142,14 +141,14 @@ export default function Home() {
           // Display UI
           <>
             <h2>{note.title}</h2>
-            <p className="text-neutral-400 text-sm">{note.content || "a"}</p>
+            <p className="text-neutral-400 text-sm h-[180px] overflow-y-auto whitespace-pre-wrap">{note.content || "a"}</p>
           </>
           )
         }
       </div>
 
       {/* Edit and Delete buttons */}
-      <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 duration-100 flex flex-col items-start text-xs gap-2">
+      <div className={`absolute -right-2 -top-8 ${note._id === editingId ? "" : "invisible opacity-0 group-hover:visible group-hover:opacity-100 duration-100"} bg-neutral-800 py-2 px-2 rounded-lg border border-neutral-300/10 shadow-lg flex items-start text-xs gap-2`}>
         {/* Show edit button, if editing show save and cancel buttons */}
         {note._id !== editingId
           ? <button
@@ -205,9 +204,9 @@ export default function Home() {
     <h1 className="text-2xl font-bold mb-6 text-center">Notes App</h1>
 
     {/* Add new note form */}
-    <div className="flex items-start gap-4 mb-4">
+    <div className="flex items-start gap-4 mb-8">
       <button
-        className="rounded-lg border border-neutral-200/10 bg-green-800 px-3 py-1 hover:opacity-90 cursor-pointer"
+        className="rounded-lg border border-neutral-200/10 bg-yellow-800 px-3 py-1 hover:opacity-90 cursor-pointer"
         onClick={() => setNewTaskFormShown(!newTaskFormShown)}
       >+ New note</button>
       
@@ -218,33 +217,46 @@ export default function Home() {
               className="border border-neutral-200/10 bg-neutral-800 rounded-lg px-3 py-1"
               type="text"
               placeholder="Title*"
+              required
               value={newTitle}
               onChange={(e) => setNewTitle(e.currentTarget.value)}
             />
-            <input
+            <textarea
               className="border border-neutral-200/10 bg-neutral-800 rounded-lg px-3 py-1"
-              type="text"
               placeholder="Content"
+              required
+              rows={4}
+              cols={30}
               value={newContent}
               onChange={(e) => setNewContent(e.currentTarget.value)}
             />
           </div>
 
-          <button
-            type="submit"
-            className={`rounded-lg border border-neutral-200/10 bg-green-800 px-3 py-1 hover:opacity-90 cursor-pointer`}
-            disabled={addTaskLoading}
-          >
-            <span className={addTaskLoading && "animate-pulse"}>
-              {addTaskLoading ? "Adding..." : "Add"}
-            </span>
-          </button>
+          <div className="flex flex-col gap-2 items-start">
+            <button
+              type="submit"
+              className={`rounded-lg border border-neutral-200/10 bg-yellow-800 px-3 py-1 hover:opacity-90 cursor-pointer`}
+              disabled={addTaskLoading}
+            >
+              <span className={addTaskLoading && "animate-pulse"}>
+                {addTaskLoading ? "Adding..." : "Add"}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className={`rounded-lg border border-neutral-200/10 bg-yellow-800 px-3 py-1 hover:opacity-90 cursor-pointer`}
+              onClick={() => setNewTaskFormShown(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       }
 
     </div>
 
-    <div className="grid gap-y-3">
+    <div className="grid grid-cols-4 gap-x-4 gap-y-6">
       {notes.length === 0 
         ? <p className="text-center mt-20">No notes. Try adding a new note.</p>
         : tasksElements
