@@ -112,7 +112,10 @@ export default function Home() {
     }
   }
 
-  const tasksElements = notes.map(note => (
+  const tasksElements = notes.map(note => {
+    const createdAt = new Date(note.createdAt)
+    
+    return (
     <div
       className={`relative group flex items-start gap-4 ${note._id === editingId ? "p-2" : "px-4 py-3"} rounded-lg border border-neutral-200/10 bg-neutral-800`}
       key={note._id}
@@ -142,6 +145,12 @@ export default function Home() {
           <>
             <h2>{note.title}</h2>
             <p className="text-neutral-400 text-sm h-[180px] overflow-y-auto whitespace-pre-wrap">{note.content || "a"}</p>
+            <p
+              className="text-xs text-neutral-500 mt-2 whitespace-pre-wrap"
+              title="Created at"
+            >
+              {createdAt.toDateString() + ", " + createdAt.toLocaleTimeString()}
+            </p>
           </>
           )
         }
@@ -189,7 +198,8 @@ export default function Home() {
         </button>
       </div>
     </div>
-  ))
+    )
+  })
   
   if (loading) return (
     <main className="min-h-screen p-8">
