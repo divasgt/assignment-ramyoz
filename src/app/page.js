@@ -114,10 +114,10 @@ export default function Home() {
 
   const tasksElements = notes.map(note => (
     <div
-      className={`group flex items-start gap-4 px-4 py-3 rounded-lg border border-neutral-200/10 ${note.is_completed ? "bg-neutral-900" : "bg-neutral-800"}`}
+      className={`group flex items-start gap-4 px-4 py-3 rounded-lg border border-neutral-200/10 bg-neutral-800`}
       key={note._id}
     >
-      <div className={`flex-1 flex-col gap-1 ${note.is_completed ? "line-through opacity-70" : ""}`}>
+      <div className={`flex-1 flex-col gap-1`}>
         {note._id === editingId
           ? (
           // Editing UI
