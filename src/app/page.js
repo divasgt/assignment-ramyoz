@@ -194,7 +194,7 @@ export default function Home() {
   
   if (loading) return (
     <main className="min-h-screen p-8">
-      <h1 className="text-2xl font-bold mb-6 text-center">note Management System</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">Notes App</h1>
       <div className="text-center mt-52 text-lg animate-pulse">Loading...</div>
     </main>
   )
@@ -202,7 +202,7 @@ export default function Home() {
 
   return (
   <main className="min-h-screen p-8">
-    <h1 className="text-2xl font-bold mb-6 text-center">note Management System</h1>
+    <h1 className="text-2xl font-bold mb-6 text-center">Notes App</h1>
 
     {/* Add new note form */}
     <div className="flex items-start gap-4 mb-4">
